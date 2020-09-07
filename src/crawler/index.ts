@@ -42,7 +42,7 @@ export function createCrawler(options: CrawlerOptions): Crawler {
       await page.waitForSelector('#tbl_calendar')
 
       // Navigate to next week
-      const { day, month, year } = getReservationDate(28)
+      const { day, month, year } = getReservationDate()
       await page.click(`#cal_${year}_${month}_${day} > a.cal-link`)
 
       await delay(500)
