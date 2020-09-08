@@ -1,12 +1,14 @@
 import { createCrawler } from './crawler'
-
-console.log('Initializing baanreserveren crawler.')
+import { createTaskRunner } from './task-runner'
+import { loadBoolean } from './config'
 
 const crawler = createCrawler({
-  debug: true,
-  dryRun: true
+  debug: loadBoolean(process.env.DEBUG, false),
+  dryRun: loadBoolean(process.env.DRY_RUN, false),
 })
 
-crawler.makeReservation()
+const app = createTaskRunner({
+  crawler,
+})
 
-console.log('Baanreserveren crawler finished.')
+app.run()

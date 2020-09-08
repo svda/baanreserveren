@@ -8,7 +8,7 @@ interface CrawlerOptions {
   dryRun?: boolean
 }
 
-interface Crawler {
+export interface Crawler {
   makeReservation: (reservationOptions?: ReservationOptions) => Promise<void>
 }
 
@@ -17,7 +17,9 @@ interface ReservationOptions {
 }
 
 export function createCrawler(options: CrawlerOptions): Crawler {
-  async function makeReservation (reservationOptions?: ReservationOptions) {
+  console.log('Baanreserveren crawler initialized.')
+
+  async function makeReservation(reservationOptions?: ReservationOptions) {
     try {
       const browser = await puppeteer.launch({
         headless: options.debug ? false : true,
@@ -39,24 +41,27 @@ export function createCrawler(options: CrawlerOptions): Crawler {
       await page.type('#login-form input[name=username]', config.baanreserveren.username)
       await page.type('#login-form input[name=password]', config.baanreserveren.password)
       await page.click('#login-form button')
-      await page.waitForSelector('#tbl_calendar')
 
       // Navigate to next week
+      await page.waitForSelector('#tbl_calendar')
       const { day, month, year } = getReservationDate()
       await page.click(`#cal_${year}_${month}_${day} > a.cal-link`)
 
-      await delay(500)
+      //await delay(500)
 
+      const rowSelector = `.matrix tr[data-time="${reservationOptions?.timeslot || config.reservation.defaultTimeslot}"]`
+      await page.waitForSelector(rowSelector)
       // Select available timeslot
-      const row = await page.$(`.matrix tr[data-time="${reservationOptions?.timeslot || config.reservation.defaultTimeslot}"]`)
+      const row = await page.$(rowSelector)
       const cells = await row?.$$('td[type="free"]')
       if (cells && cells.length) {
         await cells[0].click()
       }
 
-      await delay(500)
+      // await delay(500)
 
       // Select guest and submit
+      await page.waitForSelector('.lightbox form select[name="players[2]"]')
       await page.select('.lightbox form select[name="players[2]"]', '-1')
       await page.click('#__make_submit')
 
@@ -74,6 +79,8 @@ export function createCrawler(options: CrawlerOptions): Crawler {
       if (!options.debug) {
         await browser.close()
       }
+
+      console.log('Reservation made successfully.')
     } catch (error) {
       console.error(error.message)
     }
