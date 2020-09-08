@@ -1,14 +1,16 @@
-import { createCrawler } from './crawler'
-import { createTaskRunner } from './task-runner'
-import { loadBoolean } from './config'
+// import { createCrawler } from './crawler'
+// import { createTaskRunner } from './task-runner'
+// import { loadBoolean } from './config'
 
-const crawler = createCrawler({
-  debug: loadBoolean(process.env.DEBUG, false),
-  dryRun: loadBoolean(process.env.DRY_RUN, false),
-})
+// const crawler = createCrawler({
+//   debug: loadBoolean(process.env.DEBUG, false),
+//   dryRun: loadBoolean(process.env.DRY_RUN, false),
+// })
 
-const app = createTaskRunner({
-  crawler,
-})
+// const app = createTaskRunner({
+//   crawler,
+// })
 
-app.run()
+// app.run()
+
+export * from './functions'
