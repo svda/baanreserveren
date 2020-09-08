@@ -9,7 +9,7 @@ interface CrawlerOptions {
 }
 
 export interface Crawler {
-  makeReservation: (reservationOptions?: ReservationOptions) => Promise<void>
+  createReservation: (reservationOptions?: ReservationOptions) => Promise<void>
 }
 
 interface ReservationOptions {
@@ -19,7 +19,7 @@ interface ReservationOptions {
 export function createCrawler(options: CrawlerOptions): Crawler {
   console.log('Baanreserveren crawler initialized.')
 
-  async function makeReservation(reservationOptions?: ReservationOptions) {
+  async function createReservation(reservationOptions?: ReservationOptions) {
     try {
       const browser = await puppeteer.launch({
         headless: options.debug ? false : true,
@@ -87,6 +87,6 @@ export function createCrawler(options: CrawlerOptions): Crawler {
   }
 
   return {
-    makeReservation,
+    createReservation,
   }
 }

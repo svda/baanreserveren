@@ -17,7 +17,7 @@ export function createTaskRunner(options: TaskRunnerOptions): TaskRunner {
   const { crawler } = options
 
   const job = new CronJob(CRON_SCHEDULE, async () => {
-    await crawler.makeReservation()
+    await crawler.createReservation()
   }, null, true, CRON_TIMEZONE)
 
   function run() {
