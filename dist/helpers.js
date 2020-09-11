@@ -7,14 +7,13 @@ function delay(ms) {
     });
 }
 exports.delay = delay;
-function getReservationDate(daysOffset) {
-    if (daysOffset === void 0) { daysOffset = 7; }
-    var today = new Date();
-    var nextWeek = new Date(today.getTime() + daysOffset * 24 * 60 * 60 * 1000);
-    var day = nextWeek.getDate();
-    var month = nextWeek.getMonth() + 1;
-    var year = nextWeek.getFullYear();
-    return { day: day, month: month, year: year };
+function getReservationDate(daysOffset = 7) {
+    const today = new Date();
+    const nextWeek = new Date(today.getTime() + daysOffset * 24 * 60 * 60 * 1000);
+    const day = nextWeek.getDate();
+    const month = nextWeek.getMonth() + 1;
+    const year = nextWeek.getFullYear();
+    return { day, month, year };
 }
 exports.getReservationDate = getReservationDate;
 //# sourceMappingURL=helpers.js.map

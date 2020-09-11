@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.config = exports.loadString = exports.loadNumber = exports.loadBoolean = void 0;
-var dotenv_1 = __importDefault(require("dotenv"));
+const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 function loadBoolean(variable, defaultValue) {
     switch (variable === null || variable === void 0 ? void 0 : variable.toLowerCase()) {
@@ -25,8 +25,7 @@ function loadNumber(variable, defaultValue) {
     return variable && !isNaN(Number(variable)) ? Number(variable) : defaultValue;
 }
 exports.loadNumber = loadNumber;
-function loadString(variable, defaultValue) {
-    if (defaultValue === void 0) { defaultValue = ''; }
+function loadString(variable, defaultValue = '') {
     return (variable || defaultValue).replace(/\\n/g, '\n');
 }
 exports.loadString = loadString;

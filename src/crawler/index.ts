@@ -43,22 +43,24 @@ export function createCrawler(options: CrawlerOptions): Crawler {
       await page.click('#login-form button')
 
       // Navigate to next week
-      await page.waitForSelector('#tbl_calendar')
       const { day, month, year } = getReservationDate()
-      await page.click(`#cal_${year}_${month}_${day} > a.cal-link`)
+      const daySelector = `#cal_${year}_${month}_${day} > a.cal-link`
+      await page.waitForSelector(daySelector)
+      await page.click(daySelector)
 
-      //await delay(500)
-
-      const rowSelector = `.matrix tr[data-time="${reservationOptions?.timeslot || config.reservation.defaultTimeslot}"]`
+      // Select an available timeslot at the preferred time
+      const timeslot = reservationOptions?.timeslot || config.reservation.defaultTimeslot
+      const rowSelector = `.matrix tr[data-time="${timeslot}"]`
       await page.waitForSelector(rowSelector)
-      // Select available timeslot
       const row = await page.$(rowSelector)
       const cells = await row?.$$('td[type="free"]')
-      if (cells && cells.length) {
-        await cells[0].click()
+      if (!cells || !cells.length) {
+        // No court available.
+        console.log(`No court available at ${timeslot}.`)
+        return
+      } else {
+        cells[0].click()
       }
-
-      // await delay(500)
 
       // Select guest and submit
       await page.waitForSelector('.lightbox form select[name="players[2]"]')

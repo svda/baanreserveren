@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "function:createReservation": "DEBUG=true DRY_RUN=true yarn functions-framework --target=createReservation",
     "start": "node dist/index.js",
     "watch": "tsc --watch"
   },
@@ -17,6 +18,7 @@
     "puppeteer": "^5.2.1"
   },
   "devDependencies": {
+    "@google-cloud/functions-framework": "^1.7.1",
     "@types/cron": "^1.7.2",
     "@types/puppeteer": "^3.0.1",
     "typescript": "^4.0.2"
