@@ -4,12 +4,11 @@
   "main": "dist/index.js",
   "license": "MIT",
   "engines": {
-    "node": "10"
+    "node": ">=12"
   },
   "scripts": {
     "build": "tsc",
     "function:createReservation": "DEBUG=true DRY_RUN=true yarn functions-framework --target=createReservation",
-    "predeploy": "yarn build",
     "start": "node dist/index.js",
     "watch": "tsc --watch"
   },
