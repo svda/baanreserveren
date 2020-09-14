@@ -1,0 +1,17 @@
+steps:
+- name: 'gcr.io/cloud-builders/yarn'
+  args:
+  - install
+  - --production
+
+- name: 'gcr.io/cloud-builders/yarn'
+  args:
+  - build
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - functions
+  - deploy
+  - createReservation
+  - --source=.
+  - --trigger-http
